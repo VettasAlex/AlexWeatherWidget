@@ -4,12 +4,31 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
+    <title>Alex's Weather Project</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
+    <link rel="stylesheet" href="weather.css" />
   </head>
+
   <body>
-    <script src="" async defer></script>
+    <div class="container-1">
+      <div class="top-buttons">
+        <button>Now</button>
+        <button>Today</button>
+        <button>Select Date</button>
+      </div>
+      <div class="weather-display">
+        <div class="weather-text">
+          <h2>16°C</h2>
+          <h6>Clear - few clouds</h6>
+        </div>
+        <img
+          id="weather-icon"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlBBKU8Nu7GB-4pEsSaqXZ9B6JgjkDPxU65A&s"
+          alt="Weather Icon"
+        />
+      </div>
+    </div>
+    <script src="weather.js" async defer></script>
   </body>
 </html>
