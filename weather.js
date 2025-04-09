@@ -1,3 +1,5 @@
+console.log("JS loaded");
+
 mainTemp = document.getElementById("main-temp");
 mainComm = document.getElementById("main-comm");
 weatherIcon = document.getElementById("weather-icon");
@@ -11,12 +13,12 @@ pressure = document.getElementById("pressure");
 async function getWeather() {
   try {
     const response = await fetch(
-      "https://api.open-meteo.com/v1/forecast?latitude=40.5872&longitude=22.9482&current=temperature_2m,apparent_temperature,is_day,weather_code,wind_speed_10m,wind_gusts_10m,wind_direction_10m,relative_humidity_2m,surface_pressure&timezone=auto"
+      "https://api.open-meteo.com/v1/forecast?latitude=40.5872&longitude=22.9482&daily=weather_code,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,temperature_2m_max,temperature_2m_min,wind_gusts_10m_max,wind_direction_10m_dominant,relative_humidity_2m_max,surface_pressure_max&current=relative_humidity_2m,temperature_2m,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,apparent_temperature,weather_code,surface_pressure&timezone=auto"
     );
     const data = await response.json();
     const current = data.current;
 
-    console.log("Current weather:", current); //test it
+    console.log("Current weather data:", current);
 
     mainTemp.textContent = `${current.temperature_2m}°C`;
     mainComm.textContent = getWeatherDescription(current.weather_code);
@@ -53,15 +55,43 @@ function getWeatherDescription(code) {
 }
 
 function getWeatherIcon(code) {
-  if (code === 0) return "icons/sunny.png";
-  if (code === 1 || code === 2) return "icons/cloudy.png";
-  if (code === 3 || code === 45 || code === 48) return "icons/overcast.png";
-  if (code >= 51 && code <= 65) return "icons/rain.png";
-  if (code >= 80 && code < 95) return "icons/showers.png";
-  if (code >= 95) return "icons/storm.png";
+  if (code === 0 || code === 1) return "icons/007-sunny.png";
+  if (code === 2) return "icons/006-weather.png";
+  if (code === 3) return "icons/cloudy.png";
+  if (code === 45 || code === 48) return "icons/005-foggy.png";
+  if (code >= 51 && code <= 65) return "icons/001-rainy-day.png";
+  if (code >= 66 && code <= 79) return "icons/004-snow.png";
+  if (code >= 80 && code < 95) return "icons/002-heavy-rain.png";
+  if (code >= 95) return "icons/003-thunderstorm.png";
   return "icons/default.png";
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  getWeather();
-});
+//NIGHT
+
+// function getWeatherIcon(code, isDay) {
+//   if (isDay === 0) {
+//     if (code === 0 || code === 1) return "icons-night/clear-night.png";
+//     if (code === 2) return "icons-night/partly-cloudy-night.png";
+//     if (code === 3) return "icons-night/cloudy.png";
+//     if (code === 45 || code === 48) return "icons-night/foggy.png";
+//     if (code >= 51 && code <= 65) return "icons-night/rainy.png";
+//     if (code >= 66 && code <= 79) return "icons-night/snow.png";
+//     if (code >= 80 && code < 95) return "icons-night/heavy-rain.png";
+//     if (code >= 95) return "icons-night/thunderstorm.png";
+//     return "icons-night/default.png";
+//   } else {
+//     if (code === 0 || code === 1) return "icons/007-sunny.png";
+//     if (code === 2) return "icons/006-weather.png";
+//     if (code === 3) return "icons/cloudy.png";
+//     if (code === 45 || code === 48) return "icons/005-foggy.png";
+//     if (code >= 51 && code <= 65) return "icons/001-rainy-day.png";
+//     if (code >= 66 && code <= 79) return "icons/004-snow.png";
+//     if (code >= 80 && code < 95) return "icons/002-heavy-rain.png";
+//     if (code >= 95) return "icons/003-thunderstorm.png";
+//     return "icons/default.png";
+//   }
+// }
+
+document.addEventListener("DOMContentLoaded", () => {});
+
+getWeather();
