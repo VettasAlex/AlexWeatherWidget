@@ -23,9 +23,9 @@ body {
   background-color: #08bbf1f1;
 }
 
-.container-1 {
+.container {
   max-width: 800px;
-  margin: 0 auto;
+  margin-bottom: 1em;
   padding: 20px; /* add some space */
   background-color: rgba(238, 235, 235, 0.904);
   border-radius: 17px;
@@ -57,4 +57,23 @@ body {
 #weather-icon {
   width: 84px;
   height: auto;
+}
+
+.squares {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.square {
+  flex: 0 0 30%;
+  aspect-ratio: 1 / 1;
+  background: rgba(255, 255, 255, 0.15); /* semi-transparent white */
+  border-radius: 12px;
+  backdrop-filter: blur(10px); /* glass blur */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* subtle border */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* soft shadow for depth */
 }
