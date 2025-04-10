@@ -12,22 +12,18 @@ body {
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
-  background-color: #e6e7e7;
+  background-color: #dcdddd;
   font-size: 17px;
   font-weight: 500;
   cursor: pointer;
   font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
-.top-buttons button:first-child {
-  background-color: #08bbf1f1;
-}
-
 .container {
   max-width: 800px;
   margin-bottom: 1em;
   padding: 20px;
-  background-color: rgba(238, 235, 235, 0.904);
+  background-color: rgba(249, 249, 249, 0.904);
   border-radius: 17px;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -191,4 +187,9 @@ body.night .square h3 {
 
 body.night .square h5 {
   color: #cabec8;
+}
+
+.selected-button {
+  background-color: #549ce9 !important;
+  color: white;
 }

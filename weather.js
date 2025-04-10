@@ -5,6 +5,13 @@ toggle.addEventListener("change", () => {
   document.body.classList.toggle("night");
 });
 
+function selectButton(clickedBtn) {
+  document.querySelectorAll(".top-buttons button").forEach((btn) => {
+    btn.classList.remove("selected-button");
+  });
+  clickedBtn.classList.add("selected-button");
+}
+
 mainTemp = document.getElementById("main-temp");
 mainComm = document.getElementById("main-comm");
 weatherIcon = document.getElementById("weather-icon");
@@ -14,31 +21,74 @@ windGust = document.getElementById("wind-gust");
 windDeg = document.getElementById("wind-deg");
 humidity = document.getElementById("humidity");
 pressure = document.getElementById("pressure");
+document.addEventListener("DOMContentLoaded", () => {
+  const todayBtn = document.querySelector(".today-button");
+  todayBtn.addEventListener("click", () => {
+    showToday(weatherData.daily);
+  });
 
+  const nowBtn = document.getElementById("nowBtn");
+  nowBtn.addEventListener("click", () => {
+    if (weatherData && weatherData.current) {
+      showNow(weatherData.current);
+    }
+  });
+});
 async function getWeather() {
   try {
     const response = await fetch(
       "https://api.open-meteo.com/v1/forecast?latitude=40.5872&longitude=22.9482&daily=weather_code,apparent_temperature_max,apparent_temperature_min,wind_speed_10m_max,temperature_2m_max,temperature_2m_min,wind_gusts_10m_max,wind_direction_10m_dominant,relative_humidity_2m_max,surface_pressure_max&current=relative_humidity_2m,temperature_2m,is_day,wind_speed_10m,wind_gusts_10m,wind_direction_10m,apparent_temperature,weather_code,surface_pressure&timezone=auto"
     );
     const data = await response.json();
-    const current = data.current;
+    weatherData = data;
 
-    console.log("Current weather data:", current);
-
-    const isDay = 0;
-
-    mainTemp.textContent = `${current.temperature_2m}°C`;
-    mainComm.textContent = getWeatherDescription(current.weather_code);
-    weatherIcon.src = getWeatherIcon(current.weather_code);
-    realFeel.textContent = `${current.apparent_temperature}°C`;
-    windSpeed.textContent = `${current.wind_speed_10m} m/s`;
-    windGust.textContent = `${current.wind_gusts_10m} m/s`;
-    windDeg.textContent = `${current.wind_direction_10m}°`;
-    humidity.textContent = `${current.relative_humidity_2m}%`;
-    pressure.textContent = `${current.surface_pressure} hPa`;
+    showNow(data.current);
+    selectButton(document.getElementById("nowBtn"));
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
   }
+}
+
+function showNow(current) {
+  const isDay = current.is_day;
+  mainTemp.textContent = `${current.temperature_2m}°C`;
+  mainComm.textContent = getWeatherDescription(current.weather_code);
+  weatherIcon.src = getWeatherIcon(current.weather_code, isDay);
+  realFeel.textContent = `${current.apparent_temperature}°C`;
+  windSpeed.textContent = `${current.wind_speed_10m} m/s`;
+  windGust.textContent = `${current.wind_gusts_10m} m/s`;
+  windDeg.textContent = `${current.wind_direction_10m}°`;
+  humidity.textContent = `${current.relative_humidity_2m}%`;
+  pressure.textContent = `${current.surface_pressure} hPa`;
+}
+
+function showToday(daily) {
+  console.log(daily); // Log the daily object to check the structure
+
+  // Check if daily data exists
+  if (!daily || !daily.temperature_2m_max || !daily.temperature_2m_min) {
+    console.error("Daily data is missing!");
+    return;
+  }
+
+  const avgTemp = (
+    (daily.temperature_2m_max[0] + daily.temperature_2m_min[0]) /
+    2
+  ).toFixed(1);
+  const avgApparent = (
+    (daily.apparent_temperature_max[0] + daily.apparent_temperature_min[0]) /
+    2
+  ).toFixed(1);
+
+  mainTemp.textContent = `${avgTemp}°C`;
+  mainComm.textContent = getWeatherDescription(daily.weather_code[0]);
+  realFeel.textContent = `Feels like ${avgApparent}°C`;
+  windSpeed.textContent = `${daily.wind_speed_10m_max[0]} m/s`;
+  windGust.textContent = `${daily.wind_gusts_10m_max[0]} m/s`;
+  windDeg.textContent = `${daily.wind_direction_10m_dominant[0]}°`;
+  humidity.textContent = `${daily.relative_humidity_2m_max[0]}%`;
+  pressure.textContent = `${daily.surface_pressure_max[0]} hPa`;
+  weatherIcon.src = getWeatherIcon(daily.weather_code[0], 1); // find time for icons
 }
 
 function getWeatherDescription(code) {
@@ -74,7 +124,6 @@ function getWeatherDescription(code) {
 // }
 
 //NIGHT
-
 function getWeatherIcon(code, isDay) {
   if (isDay === 0) {
     if (code === 0 || code === 1) return "icons/Night/005-crescent-moon.png";
@@ -98,7 +147,4 @@ function getWeatherIcon(code, isDay) {
     return "icons/caution.png";
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {});
-
 getWeather();
