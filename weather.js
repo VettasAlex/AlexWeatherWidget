@@ -1,5 +1,10 @@
 console.log("JS loaded");
 
+const toggle = document.getElementById("dark-mode-toggle");
+toggle.addEventListener("change", () => {
+  document.body.classList.toggle("night");
+});
+
 mainTemp = document.getElementById("main-temp");
 mainComm = document.getElementById("main-comm");
 weatherIcon = document.getElementById("weather-icon");
