@@ -34,10 +34,8 @@ todayBtn.addEventListener("click", () => {
 });
 
 setInterval(() => {
-  //Not Working :(
-  console.log("IM RELOADING..?");
-}, 10000);
-//
+  console.log("1-min data refresh");
+}, 60000);
 
 async function getWeather() {
   try {
@@ -49,6 +47,7 @@ async function getWeather() {
 
     showNow(data.current);
     selectButton(document.getElementById("nowBtn"));
+    showWeeklyChart(data.daily); // ✅ Now it's safe to use data
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
   }
@@ -68,13 +67,14 @@ function showNow(current) {
 }
 
 function showToday(daily) {
-  console.log(daily);
+  //  Debug Attempt
 
-  if (!daily || !daily.temperature_2m_max || !daily.temperature_2m_min) {
-    //Debug Attempt
-    console.error("Daily data is missing!");
-    return;
-  }
+  // console.log(daily);
+  // if (!daily || !daily.temperature_2m_max || !daily.temperature_2m_min) {
+
+  //   console.error("Daily data is missing!");
+  //   return;
+  // }
 
   const avgTemp = (
     (daily.temperature_2m_max[0] + daily.temperature_2m_min[0]) /
@@ -87,7 +87,7 @@ function showToday(daily) {
 
   mainTemp.textContent = `${avgTemp}°C`;
   mainComm.textContent = getWeatherDescription(daily.weather_code[0]);
-  realFeel.textContent = `Feels like ${avgApparent}°C`;
+  realFeel.textContent = `${avgApparent}°C`;
   windSpeed.textContent = `${daily.wind_speed_10m_max[0]} m/s`;
   windGust.textContent = `${daily.wind_gusts_10m_max[0]} m/s`;
   windDeg.textContent = `${daily.wind_direction_10m_dominant[0]}°`;
@@ -141,3 +141,42 @@ function getWeatherIcon(code, isDay) {
 }
 
 getWeather();
+
+function showWeeklyChart(daily) {
+  const ctx = document.getElementById("weekChart").getContext("2d");
+
+  const labels = daily.time;
+  const temperatures = daily.temperature_2m_max;
+
+  // Check if dark mode is enabled by looking for the "night" class on the body
+  const isDarkMode = document.body.classList.contains("night");
+
+  // Set the line color based on light or dark mode
+  const lineColor = "#ff9800";
+
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Max Temperature (°C)",
+          data: temperatures,
+          fill: false,
+          borderColor: lineColor, // Dynamic color based on mode
+          tension: 0.2,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: false,
+        },
+      },
+    },
+  });
+}
+
+showWeeklyChart(data.daily);
