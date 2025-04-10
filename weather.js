@@ -5,13 +5,6 @@ toggle.addEventListener("change", () => {
   document.body.classList.toggle("night");
 });
 
-function selectButton(clickedBtn) {
-  document.querySelectorAll(".top-buttons button").forEach((btn) => {
-    btn.classList.remove("selected-button");
-  });
-  clickedBtn.classList.add("selected-button");
-}
-
 mainTemp = document.getElementById("main-temp");
 mainComm = document.getElementById("main-comm");
 weatherIcon = document.getElementById("weather-icon");
@@ -21,19 +14,31 @@ windGust = document.getElementById("wind-gust");
 windDeg = document.getElementById("wind-deg");
 humidity = document.getElementById("humidity");
 pressure = document.getElementById("pressure");
+
+function selectButton(clickedBtn) {
+  document.querySelectorAll(".top-buttons button").forEach((btn) => {
+    btn.classList.remove("selected-button");
+  });
+  clickedBtn.classList.add("selected-button");
+}
+const nowBtn = document.getElementById("nowBtn");
+nowBtn.addEventListener("click", () => {
+  if (weatherData && weatherData.current) {
+    showNow(weatherData.current);
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
   const todayBtn = document.querySelector(".today-button");
   todayBtn.addEventListener("click", () => {
     showToday(weatherData.daily);
   });
 
-  const nowBtn = document.getElementById("nowBtn");
-  nowBtn.addEventListener("click", () => {
-    if (weatherData && weatherData.current) {
-      showNow(weatherData.current);
-    }
-  });
+  setInterval(() => {
+    //Not Working :(
+    console.log("IM RELOADING..?");
+  }, 10000);
 });
+
 async function getWeather() {
   try {
     const response = await fetch(
@@ -63,10 +68,10 @@ function showNow(current) {
 }
 
 function showToday(daily) {
-  console.log(daily); // Log the daily object to check the structure
+  console.log(daily);
 
-  // Check if daily data exists
   if (!daily || !daily.temperature_2m_max || !daily.temperature_2m_min) {
+    //Debug Attempt
     console.error("Daily data is missing!");
     return;
   }
@@ -88,7 +93,7 @@ function showToday(daily) {
   windDeg.textContent = `${daily.wind_direction_10m_dominant[0]}°`;
   humidity.textContent = `${daily.relative_humidity_2m_max[0]}%`;
   pressure.textContent = `${daily.surface_pressure_max[0]} hPa`;
-  weatherIcon.src = getWeatherIcon(daily.weather_code[0], 1); // find time for icons
+  weatherIcon.src = getWeatherIcon(daily.weather_code[0], 1);
 }
 
 function getWeatherDescription(code) {
@@ -111,24 +116,11 @@ function getWeatherDescription(code) {
   return descriptions[code] || "Unknown";
 }
 
-// function getWeatherIcon(code) {
-//   if (code === 0 || code === 1) return "icons/Day/007-sunny.png";
-//   if (code === 2) return "icons/Day/006-weather.png";
-//   if (code === 3) return "icons/Day/cloudy.png";
-//   if (code === 45 || code === 48) return "icons/Day/005-foggy.png";
-//   if (code >= 51 && code <= 65) return "icons/Day/001-rainy-day.png";
-//   if (code >= 66 && code <= 79) return "icons/Day/004-snow.png";
-//   if (code >= 80 && code < 95) return "icons/Day/002-heavy-rain.png";
-//   if (code >= 95) return "icons/Day/003-thunderstorm.png";
-//   return "icons/default.png";
-// }
-
-//NIGHT
 function getWeatherIcon(code, isDay) {
   if (isDay === 0) {
     if (code === 0 || code === 1) return "icons/Night/005-crescent-moon.png";
-    if (code === 2) return "icons/Night/partly-cloudy-night.png";
-    if (code === 3) return "icons/Night/cloudy.png";
+    if (code === 2) return "icons/Night/006-cloudy-night.png";
+    if (code === 3) return "icons/Night/007-moonlight.png";
     if (code === 45 || code === 48) return "icons/Night/004-fog.png";
     if (code >= 51 && code <= 65) return "icons/Night/001-rain.png";
     if (code >= 66 && code <= 79) return "icons/Night/008-winter.png";
@@ -147,4 +139,5 @@ function getWeatherIcon(code, isDay) {
     return "icons/caution.png";
   }
 }
+
 getWeather();
