@@ -25,6 +25,8 @@ async function getWeather() {
 
     console.log("Current weather data:", current);
 
+    const isDay = 0;
+
     mainTemp.textContent = `${current.temperature_2m}°C`;
     mainComm.textContent = getWeatherDescription(current.weather_code);
     weatherIcon.src = getWeatherIcon(current.weather_code);
@@ -59,43 +61,43 @@ function getWeatherDescription(code) {
   return descriptions[code] || "Unknown";
 }
 
-function getWeatherIcon(code) {
-  if (code === 0 || code === 1) return "icons/Day/007-sunny.png";
-  if (code === 2) return "icons/Day/006-weather.png";
-  if (code === 3) return "icons/Day/cloudy.png";
-  if (code === 45 || code === 48) return "icons/Day/005-foggy.png";
-  if (code >= 51 && code <= 65) return "icons/Day/001-rainy-day.png";
-  if (code >= 66 && code <= 79) return "icons/Day/004-snow.png";
-  if (code >= 80 && code < 95) return "icons/Day/002-heavy-rain.png";
-  if (code >= 95) return "icons/Day/003-thunderstorm.png";
-  return "icons/default.png";
-}
+// function getWeatherIcon(code) {
+//   if (code === 0 || code === 1) return "icons/Day/007-sunny.png";
+//   if (code === 2) return "icons/Day/006-weather.png";
+//   if (code === 3) return "icons/Day/cloudy.png";
+//   if (code === 45 || code === 48) return "icons/Day/005-foggy.png";
+//   if (code >= 51 && code <= 65) return "icons/Day/001-rainy-day.png";
+//   if (code >= 66 && code <= 79) return "icons/Day/004-snow.png";
+//   if (code >= 80 && code < 95) return "icons/Day/002-heavy-rain.png";
+//   if (code >= 95) return "icons/Day/003-thunderstorm.png";
+//   return "icons/default.png";
+// }
 
 //NIGHT
 
-// function getWeatherIcon(code, isDay) {
-//   if (isDay === 0) {
-//     if (code === 0 || code === 1) return "icons-night/clear-night.png";
-//     if (code === 2) return "icons-night/partly-cloudy-night.png";
-//     if (code === 3) return "icons-night/cloudy.png";
-//     if (code === 45 || code === 48) return "icons-night/foggy.png";
-//     if (code >= 51 && code <= 65) return "icons-night/rainy.png";
-//     if (code >= 66 && code <= 79) return "icons-night/snow.png";
-//     if (code >= 80 && code < 95) return "icons-night/heavy-rain.png";
-//     if (code >= 95) return "icons-night/thunderstorm.png";
-//     return "icons-night/default.png";
-//   } else {
-//     if (code === 0 || code === 1) return "icons/007-sunny.png";
-//     if (code === 2) return "icons/006-weather.png";
-//     if (code === 3) return "icons/cloudy.png";
-//     if (code === 45 || code === 48) return "icons/005-foggy.png";
-//     if (code >= 51 && code <= 65) return "icons/001-rainy-day.png";
-//     if (code >= 66 && code <= 79) return "icons/004-snow.png";
-//     if (code >= 80 && code < 95) return "icons/002-heavy-rain.png";
-//     if (code >= 95) return "icons/003-thunderstorm.png";
-//     return "icons/default.png";
-//   }
-// }
+function getWeatherIcon(code, isDay) {
+  if (isDay === 0) {
+    if (code === 0 || code === 1) return "icons/Night/005-crescent-moon.png";
+    if (code === 2) return "icons/Night/partly-cloudy-night.png";
+    if (code === 3) return "icons/Night/cloudy.png";
+    if (code === 45 || code === 48) return "icons/Night/004-fog.png";
+    if (code >= 51 && code <= 65) return "icons/Night/001-rain.png";
+    if (code >= 66 && code <= 79) return "icons/Night/008-winter.png";
+    if (code >= 80 && code < 95) return "icons/Night/003-night-storm.png";
+    if (code >= 95) return "icons/Night/002-thunder.png";
+    return "icons/caution.png";
+  } else {
+    if (code === 0 || code === 1) return "icons/Day/007-sunny.png";
+    if (code === 2) return "icons/Day/006-weather.png";
+    if (code === 3) return "icons/Day/cloudy.png";
+    if (code === 45 || code === 48) return "icons/Day/005-foggy.png";
+    if (code >= 51 && code <= 65) return "icons/Day/001-rainy-day.png";
+    if (code >= 66 && code <= 79) return "icons/Day/004-snow.png";
+    if (code >= 80 && code < 95) return "icons/Day/002-heavy-rain.png";
+    if (code >= 95) return "icons/Day/003-thunderstorm.png";
+    return "icons/caution.png";
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {});
 
