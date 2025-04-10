@@ -27,17 +27,17 @@ nowBtn.addEventListener("click", () => {
     showNow(weatherData.current);
   }
 });
-document.addEventListener("DOMContentLoaded", () => {
-  const todayBtn = document.querySelector(".today-button");
-  todayBtn.addEventListener("click", () => {
-    showToday(weatherData.daily);
-  });
 
-  setInterval(() => {
-    //Not Working :(
-    console.log("IM RELOADING..?");
-  }, 10000);
+const todayBtn = document.querySelector(".today-button");
+todayBtn.addEventListener("click", () => {
+  showToday(weatherData.daily);
 });
+
+setInterval(() => {
+  //Not Working :(
+  console.log("IM RELOADING..?");
+}, 10000);
+//
 
 async function getWeather() {
   try {
