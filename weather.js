@@ -1,4 +1,4 @@
-console.log("JS loaded");
+console.log("TEST1");
 
 const toggle = document.getElementById("dark-mode-toggle");
 toggle.addEventListener("change", () => {
@@ -60,14 +60,14 @@ function getWeatherDescription(code) {
 }
 
 function getWeatherIcon(code) {
-  if (code === 0 || code === 1) return "icons/007-sunny.png";
-  if (code === 2) return "icons/006-weather.png";
-  if (code === 3) return "icons/cloudy.png";
-  if (code === 45 || code === 48) return "icons/005-foggy.png";
-  if (code >= 51 && code <= 65) return "icons/001-rainy-day.png";
-  if (code >= 66 && code <= 79) return "icons/004-snow.png";
-  if (code >= 80 && code < 95) return "icons/002-heavy-rain.png";
-  if (code >= 95) return "icons/003-thunderstorm.png";
+  if (code === 0 || code === 1) return "icons/Day/007-sunny.png";
+  if (code === 2) return "icons/Day/006-weather.png";
+  if (code === 3) return "icons/Day/cloudy.png";
+  if (code === 45 || code === 48) return "icons/Day/005-foggy.png";
+  if (code >= 51 && code <= 65) return "icons/Day/001-rainy-day.png";
+  if (code >= 66 && code <= 79) return "icons/Day/004-snow.png";
+  if (code >= 80 && code < 95) return "icons/Day/002-heavy-rain.png";
+  if (code >= 95) return "icons/Day/003-thunderstorm.png";
   return "icons/default.png";
 }
 
