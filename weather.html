@@ -9,31 +9,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="weather.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-   
   </head>
 
   <body>
-    
     <div class="container">
       <div class="top-buttons">
         <button id="nowBtn" onclick="selectButton(this)">Now</button>
-<button id="todayBtn" class="today-button" onclick="selectButton(this)">Today</button>
+        <button id="todayBtn" class="today-button" onclick="selectButton(this)">
+          Today
+        </button>
         <button class="date-button" onclick="selectButton(this)">Date</button>
+
         <label class="switch">
           <input type="checkbox" id="dark-mode-toggle" />
           <span class="slider"></span>
         </label>
       </div>
+      <div id="date-options" class="hidden"></div>
       <div class="weather-display">
         <div class="weather-text">
           <h2 id="main-temp">--°C</h2>
           <h6 id="main-comm">Clear - few clouds</h6>
         </div>
-        <img
-          id="weather-icon"
-          src="/icons/caution.png"
-          alt="Weather Icon"
-        />
+        <img id="weather-icon" src="/icons/caution.png" alt="Weather Icon" />
       </div>
     </div>
 
@@ -74,14 +72,10 @@
     <div class="container">
       <div class="graph">
         <canvas id="weekChart" width="400" height="200"></canvas>
-        <div style="text-align: center; margin-bottom: 10px;">
-  <!-- <button id="toggleChartBtn">Show Feels Like</button> -->
-</div>
+        <div style="text-align: center; margin-bottom: 10px"></div>
       </div>
     </div>
 
     <script src="weather.js" async defer></script>
   </body>
-  <div>
-    
 </html>

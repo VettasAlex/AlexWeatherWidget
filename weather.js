@@ -1,8 +1,15 @@
+document.addEventListener("DOMContentLoaded", () => {
+  getWeather();
+});
+
 console.log("TEST1");
 
 const toggle = document.getElementById("dark-mode-toggle");
 toggle.addEventListener("change", () => {
   document.body.classList.toggle("night");
+  if (weatherData && weatherData.daily) {
+    showWeeklyChart(weatherData.daily);
+  }
 });
 
 mainTemp = document.getElementById("main-temp");
@@ -14,6 +21,7 @@ windGust = document.getElementById("wind-gust");
 windDeg = document.getElementById("wind-deg");
 humidity = document.getElementById("humidity");
 pressure = document.getElementById("pressure");
+let weatherData;
 
 function selectButton(clickedBtn) {
   document.querySelectorAll(".top-buttons button").forEach((btn) => {
@@ -21,8 +29,61 @@ function selectButton(clickedBtn) {
   });
   clickedBtn.classList.add("selected-button");
 }
+
+const dateBtn = document.querySelector(".date-button");
+const dateOptionsContainer = document.getElementById("date-options");
+
+dateBtn.addEventListener("click", () => {
+  if (!weatherData || !weatherData.daily || !weatherData.daily.time) return;
+
+  dateOptionsContainer.classList.toggle("hidden");
+
+  if (!dateOptionsContainer.classList.contains("hidden")) {
+    selectButton(dateBtn);
+    showDateOptions(weatherData.daily.time);
+  } else {
+    dateOptionsContainer.innerHTML = "";
+  }
+});
+
+function showDateOptions(dates) {
+  dateOptionsContainer.innerHTML = "";
+  for (let i = 1; i <= 6; i++) {
+    const btn = document.createElement("button");
+    const date = new Date(dates[i]);
+    const dateStr = date
+      .toLocaleDateString("en-GB", {
+        weekday: "short",
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      })
+      .replace(/20(\d{2})/, "$1");
+    btn.textContent = dateStr;
+
+    btn.addEventListener("click", () => {
+      showSpecificDay(weatherData.daily, i);
+
+      document
+        .querySelectorAll("#date-options button")
+        .forEach((b) => b.classList.remove("selected-button"));
+
+      btn.classList.add("selected-button");
+
+      // dateOptionsContainer.classList.add("hidden");
+    });
+
+    dateOptionsContainer.appendChild(btn);
+  }
+}
+
 const nowBtn = document.getElementById("nowBtn");
 nowBtn.addEventListener("click", () => {
+  if (!dateOptionsContainer.classList.contains("hidden")) {
+    //QuickFix coz class.remove acted weird.
+    dateOptionsContainer.classList.add("hidden");
+  }
+
   if (weatherData && weatherData.current) {
     showNow(weatherData.current);
   }
@@ -30,6 +91,11 @@ nowBtn.addEventListener("click", () => {
 
 const todayBtn = document.querySelector(".today-button");
 todayBtn.addEventListener("click", () => {
+  if (!dateOptionsContainer.classList.contains("hidden")) {
+    //QuickFix coz class.remove acted weird.
+    dateOptionsContainer.classList.add("hidden");
+  }
+
   showToday(weatherData.daily);
 });
 
@@ -68,15 +134,6 @@ function showNow(current) {
 }
 
 function showToday(daily) {
-  //  Debug Attempt
-
-  // console.log(daily);
-  // if (!daily || !daily.temperature_2m_max || !daily.temperature_2m_min) {
-
-  //   console.error("Daily data is missing!");
-  //   return;
-  // }
-
   const avgTemp = (
     (daily.temperature_2m_max[0] + daily.temperature_2m_min[0]) /
     2
@@ -95,6 +152,28 @@ function showToday(daily) {
   humidity.textContent = `${daily.relative_humidity_2m_max[0]}%`;
   pressure.textContent = `${daily.surface_pressure_max[0]} hPa`;
   weatherIcon.src = getWeatherIcon(daily.weather_code[0], 1);
+}
+
+function showSpecificDay(daily, index) {
+  const avgTemp = (
+    (daily.temperature_2m_max[index] + daily.temperature_2m_min[index]) /
+    2
+  ).toFixed(1);
+  const avgApparent = (
+    (daily.apparent_temperature_max[index] +
+      daily.apparent_temperature_min[index]) /
+    2
+  ).toFixed(1);
+
+  mainTemp.textContent = `${avgTemp}°C`;
+  mainComm.textContent = getWeatherDescription(daily.weather_code[index]);
+  realFeel.textContent = `${avgApparent}°C`;
+  windSpeed.textContent = `${daily.wind_speed_10m_max[index]} m/s`;
+  windGust.textContent = `${daily.wind_gusts_10m_max[index]} m/s`;
+  windDeg.textContent = `${daily.wind_direction_10m_dominant[index]}°`;
+  humidity.textContent = `${daily.relative_humidity_2m_max[index]}%`;
+  pressure.textContent = `${daily.surface_pressure_max[index]} hPa`;
+  weatherIcon.src = getWeatherIcon(daily.weather_code[index], 1);
 }
 
 function getWeatherDescription(code) {
@@ -142,9 +221,16 @@ function getWeatherIcon(code, isDay) {
 }
 
 function showWeeklyChart(daily) {
+  const oldChart = Chart.getChart("weekChart");
+  if (oldChart) oldChart.destroy();
   const ctx = document.getElementById("weekChart").getContext("2d");
 
-  const labels = daily.time || [];
+  const labels =
+    daily.time.map((date) => {
+      const [year, month, day] = date.split("-");
+      return `${day}-${month}-${year}`; // Format as DD-MM-YYYY
+    }) || [];
+
   const maxTemperatures = daily.temperature_2m_max || [];
   const minTemperatures = daily.temperature_2m_min || [];
 
@@ -158,10 +244,13 @@ function showWeeklyChart(daily) {
   }
 
   const isDarkMode = document.body.classList.contains("night");
-  const maxLineColor = "#ff9800"; //Here it works, in CSS id doesn't :S
-  const minLineColor = "#2196f3"; //Here it works, in CSS id doesn't :S
+  const maxLineColor = "#ff9800";
+  const minLineColor = "#2196f3";
+  const textColor = isDarkMode ? "#cabec8" : "rgb(54, 54, 54)"; // Dark mode: #cabec8, Light mode: rgb(54, 54, 54)
+  const gridColor = isDarkMode
+    ? "rgba(202, 190, 200, 0.1)"
+    : "rgba(54, 54, 54, 0.1)";
 
-  //CHART.JS
   new Chart(ctx, {
     type: "line",
     data: {
@@ -185,16 +274,53 @@ function showWeeklyChart(daily) {
     },
     options: {
       responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+          labels: {
+            font: {
+              family: "'Segoe UI', Tahoma",
+              size: 14,
+              weight: "bold",
+            },
+            color: textColor,
+          },
+        },
+        tooltip: {
+          backgroundColor: isDarkMode ? "#424242" : "#ffffff",
+          titleFont: {
+            weight: "bold",
+            color: textColor,
+          },
+          bodyFont: {
+            weight: "bold",
+            color: textColor,
+          },
+          titleColor: textColor,
+          bodyColor: textColor,
+        },
+      },
       scales: {
         y: {
-          beginAtZero: false,
           ticks: {
-            font: { weight: "bold" },
+            color: textColor,
+            font: {
+              weight: "bold",
+            },
+          },
+          grid: {
+            color: gridColor,
           },
         },
         x: {
           ticks: {
-            font: { weight: "bold" },
+            color: textColor,
+            font: {
+              weight: "bold",
+            },
+          },
+          grid: {
+            color: gridColor,
           },
         },
       },
@@ -203,4 +329,5 @@ function showWeeklyChart(daily) {
 }
 
 getWeather();
-showWeeklyChart(data.daily);
+
+console.log("weatherData", weatherData);
