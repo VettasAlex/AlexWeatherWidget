@@ -33,6 +33,7 @@ todayBtn.addEventListener("click", () => {
   showToday(weatherData.daily);
 });
 
+//refresh per min
 setInterval(() => {
   console.log("1-min data refresh");
 }, 60000);
@@ -47,7 +48,7 @@ async function getWeather() {
 
     showNow(data.current);
     selectButton(document.getElementById("nowBtn"));
-    showWeeklyChart(data.daily); // ✅ Now it's safe to use data
+    showWeeklyChart(data.daily);
   } catch (error) {
     console.error("Failed to fetch weather data:", error);
   }
@@ -140,20 +141,27 @@ function getWeatherIcon(code, isDay) {
   }
 }
 
-getWeather();
-
 function showWeeklyChart(daily) {
   const ctx = document.getElementById("weekChart").getContext("2d");
 
-  const labels = daily.time;
-  const temperatures = daily.temperature_2m_max;
+  const labels = daily.time || [];
+  const maxTemperatures = daily.temperature_2m_max || [];
+  const minTemperatures = daily.temperature_2m_min || [];
 
-  // Check if dark mode is enabled by looking for the "night" class on the body
+  if (
+    labels.length === 0 ||
+    maxTemperatures.length === 0 ||
+    minTemperatures.length === 0
+  ) {
+    console.error("Missing data for the chart.");
+    return;
+  }
+
   const isDarkMode = document.body.classList.contains("night");
+  const maxLineColor = "#ff9800"; //Here it works, in CSS id doesn't :S
+  const minLineColor = "#2196f3"; //Here it works, in CSS id doesn't :S
 
-  // Set the line color based on light or dark mode
-  const lineColor = "#ff9800";
-
+  //CHART.JS
   new Chart(ctx, {
     type: "line",
     data: {
@@ -161,9 +169,16 @@ function showWeeklyChart(daily) {
       datasets: [
         {
           label: "Max Temperature (°C)",
-          data: temperatures,
+          data: maxTemperatures,
           fill: false,
-          borderColor: lineColor, // Dynamic color based on mode
+          borderColor: maxLineColor,
+          tension: 0.2,
+        },
+        {
+          label: "Min Temperature (°C)",
+          data: minTemperatures,
+          fill: false,
+          borderColor: minLineColor,
           tension: 0.2,
         },
       ],
@@ -173,10 +188,19 @@ function showWeeklyChart(daily) {
       scales: {
         y: {
           beginAtZero: false,
+          ticks: {
+            font: { weight: "bold" },
+          },
+        },
+        x: {
+          ticks: {
+            font: { weight: "bold" },
+          },
         },
       },
     },
   });
 }
 
+getWeather();
 showWeeklyChart(data.daily);
