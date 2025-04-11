@@ -69,8 +69,6 @@ function showDateOptions(dates) {
         .forEach((b) => b.classList.remove("selected-button"));
 
       btn.classList.add("selected-button");
-
-      // dateOptionsContainer.classList.add("hidden");
     });
 
     dateOptionsContainer.appendChild(btn);
@@ -91,7 +89,6 @@ nowBtn.addEventListener("click", () => {
 const todayBtn = document.querySelector(".today-button");
 todayBtn.addEventListener("click", () => {
   if (!dateOptionsContainer.classList.contains("hidden")) {
-    //QuickFix coz class.remove acted weird.
     dateOptionsContainer.classList.add("hidden");
   }
 
@@ -227,7 +224,7 @@ function showWeeklyChart(daily) {
   const labels =
     daily.time.map((date) => {
       const [year, month, day] = date.split("-");
-      return `${day}-${month}-${year}`; // Format as DD-MM-YYYY
+      return `${day}-${month}-${year}`;
     }) || [];
 
   const maxTemperatures = daily.temperature_2m_max || [];
@@ -245,7 +242,7 @@ function showWeeklyChart(daily) {
   const isDarkMode = document.body.classList.contains("night");
   const maxLineColor = "#ff9800";
   const minLineColor = "#2196f3";
-  const textColor = isDarkMode ? "#cabec8" : "rgb(54, 54, 54)"; // Dark mode: #cabec8, Light mode: rgb(54, 54, 54)
+  const textColor = isDarkMode ? "#cabec8" : "rgb(54, 54, 54)";
   const gridColor = isDarkMode
     ? "rgba(202, 190, 200, 0.1)"
     : "rgba(54, 54, 54, 0.1)";
