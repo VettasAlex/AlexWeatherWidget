@@ -80,7 +80,6 @@ function showDateOptions(dates) {
 const nowBtn = document.getElementById("nowBtn");
 nowBtn.addEventListener("click", () => {
   if (!dateOptionsContainer.classList.contains("hidden")) {
-    //QuickFix coz class.remove acted weird.
     dateOptionsContainer.classList.add("hidden");
   }
 
