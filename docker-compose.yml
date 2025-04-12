@@ -19,7 +19,7 @@ services:
 
   weather-backend:
     build:
-      context: .
+      context: ./WeatherDataFetcher
       dockerfile: Dockerfile
     container_name: weather-backend
     ports:

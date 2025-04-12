@@ -13,9 +13,9 @@ import org.json.JSONObject;
 
 public class DataFetcher {
 
-    // Thessaloniki coordinates
+    // SKG coordinates
     private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude=40.6401&longitude=22.9444&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min&timezone=auto";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/weather-app";
+    private static final String DB_URL = "jdbc:mysql://weather-db:3306/weather_app";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "12345";
 
@@ -46,20 +46,18 @@ public class DataFetcher {
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
                 String query = "INSERT INTO daily_weather (city, date, avg_temperature, avg_humidity) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                    // Only today's data (index 0)
+                    String date = dates.getString(0);
+                    double avgTemp = (tempMax.getDouble(0) + tempMin.getDouble(0)) / 2;
+                    double avgHumidity = (humidityMax.getDouble(0) + humidityMin.getDouble(0)) / 2;
 
-                    for (int i = 0; i < dates.length(); i++) {
-                        String date = dates.getString(i);
-                        double avgTemp = (tempMax.getDouble(i) + tempMin.getDouble(i)) / 2;
-                        double avgHumidity = (humidityMax.getDouble(i) + humidityMin.getDouble(i)) / 2;
+                    stmt.setString(1, city);
+                    stmt.setString(2, date);
+                    stmt.setDouble(3, avgTemp);
+                    stmt.setDouble(4, avgHumidity);
+                    stmt.executeUpdate();
 
-                        stmt.setString(1, city);
-                        stmt.setString(2, date);
-                        stmt.setDouble(3, avgTemp);
-                        stmt.setDouble(4, avgHumidity);
-                        stmt.executeUpdate();
-
-                        System.out.println("Inserted data for " + date);
-                    }
+                    System.out.println("Inserted today's data for " + date);
                 }
             }
 
