@@ -85,6 +85,18 @@ body {
   }
 }
 
+@media (max-width: 900px) {
+  #date-options {
+    justify-content: center;
+  }
+
+  #date-options button {
+    flex: 1 1 calc(33.33% - 12px); /* 3 per row, minus gap */
+    max-width: calc(33.33% - 12px);
+    box-sizing: border-box;
+  }
+}
+
 /* DEFAULT & DAY MODE  */
 
 .top-buttons {
