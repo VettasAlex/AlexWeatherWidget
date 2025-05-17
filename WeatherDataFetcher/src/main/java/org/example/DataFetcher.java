@@ -66,4 +66,24 @@ public class DataFetcher {
             e.printStackTrace();
         }
     }
+
+    public void insertMomentaryWeather(String city, double temperature, int humidity) {
+        String query = "INSERT INTO momentary_weather (city, temperature, humidity) VALUES (?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, city);
+            stmt.setDouble(2, temperature);
+            stmt.setInt(3, humidity);
+            stmt.executeUpdate();
+
+            System.out.println("Momentary weather inserted successfully.");
+
+        } catch (Exception e) {
+            System.err.println("Failed to insert momentary weather:");
+            e.printStackTrace();
+        }
+    }
+
 }
