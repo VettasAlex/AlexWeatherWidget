@@ -24,12 +24,20 @@ pressure = document.getElementById("pressure");
 let weatherData;
 
 function selectButton(clickedBtn) {
+  //skip the logTempBtn
+  if (clickedBtn.id === "logTempBtn") {
+    return;
+  }
+
   document.querySelectorAll(".top-buttons button").forEach((btn) => {
     btn.classList.remove("selected-button");
   });
   clickedBtn.classList.add("selected-button");
 }
 
+function logTemperature() {
+  alert("Temperature was successfully logged!");
+}
 const dateBtn = document.querySelector(".date-button");
 const dateOptionsContainer = document.getElementById("date-options");
 
