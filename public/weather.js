@@ -224,6 +224,23 @@ function getWeatherIcon(code, isDay) {
   }
 }
 
+document.getElementById("logTempBtn").addEventListener("click", function () {
+  const city = "Thessaloniki"; // or dynamically from your app
+  const temperature = parseFloat(
+    document.getElementById("main-temp").textContent
+  );
+  const humidity = parseInt(document.getElementById("humidity").textContent);
+
+  fetch("http://localhost:8080/log-momentary", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ city, temperature, humidity }),
+  })
+    .then((res) => res.text())
+    .then((data) => alert(data))
+    .catch((err) => console.error("Fetch failed:", err));
+});
+
 function showWeeklyChart(daily) {
   const oldChart = Chart.getChart("weekChart");
   if (oldChart) oldChart.destroy();

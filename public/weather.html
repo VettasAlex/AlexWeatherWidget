@@ -38,10 +38,6 @@
       </button>
     </div>
 
-    <div class="record">
-      <button id="record-button">Record Temperature</button>
-    </div>
-
     <div class="container">
       <div class="squares">
         <div class="square">
@@ -84,5 +80,19 @@
     </div>
 
     <script src="weather.js" async defer></script>
+
+    <!-- Fetch POST for logTempBtn click -->
+    <script>
+      document
+        .getElementById("logTempBtn")
+        .addEventListener("click", function () {
+          fetch("http://localhost:8080/trigger-fetch", {
+            method: "POST",
+          })
+            .then((res) => res.text())
+            .then((data) => alert(data))
+            .catch((err) => console.error("Fetch failed:", err));
+        });
+    </script>
   </body>
 </html>

@@ -181,7 +181,7 @@ body {
   margin-bottom: 10px;
 }
 
-#record-button {
+/* #record-button {
   padding: 8px 16px;
   background-color: #2196f3;
   color: white;
@@ -192,11 +192,11 @@ body {
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.3s ease;
-}
+} */
 
-#record-button:hover {
+/* #record-button:hover {
   background-color: #1976d2;
-}
+} */
 
 .squares {
   display: flex;
@@ -427,13 +427,13 @@ body.night input:checked + .slider {
   background-color: #c77905 !important;
 }
 
-body.night #record-button {
+/* body.night #record-button {
   background-color: #c77905;
 }
 
 body.night #record-button:hover {
   background-color: #a86603;
-}
+} */
 
 body.night .graph {
   background-color: rgba(0, 0, 0, 0.3);

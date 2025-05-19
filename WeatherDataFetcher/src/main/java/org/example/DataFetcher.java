@@ -15,7 +15,7 @@ public class DataFetcher {
 
     // SKG coordinates
     private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude=40.6401&longitude=22.9444&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min&timezone=auto";
-    private static final String DB_URL = "jdbc:mysql://weather-db:3306/weather_app";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/weather_app";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "12345";
 
@@ -63,6 +63,26 @@ public class DataFetcher {
 
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void insertMomentaryWeather(String city, double temperature, int humidity) {
+        String query = "INSERT INTO weather_data (city, temperature, humidity) VALUES (?, ?, ?)";
+
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, city);
+            stmt.setDouble(2, temperature);
+            stmt.setInt(3, humidity);
+            stmt.executeUpdate();
+
+            System.out.println("Momentary weather inserted successfully.");
+
+        } catch (Exception e) {
+            System.err.println("Failed to insert momentary weather:");
             e.printStackTrace();
         }
     }
