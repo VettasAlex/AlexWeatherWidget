@@ -36,7 +36,9 @@ function selectButton(clickedBtn) {
 }
 
 function logTemperature() {
-  alert("Temperature was successfully logged!");
+  setTimeout(function () {
+    alert("Temperature was successfully logged in the Database!");
+  }, 250);
 }
 const dateBtn = document.querySelector(".date-button");
 const dateOptionsContainer = document.getElementById("date-options");
@@ -225,7 +227,7 @@ function getWeatherIcon(code, isDay) {
 }
 
 document.getElementById("logTempBtn").addEventListener("click", function () {
-  const city = "Thessaloniki"; // or dynamically from your app
+  const city = "Thessaloniki";
   const temperature = parseFloat(
     document.getElementById("main-temp").textContent
   );
