@@ -8,6 +8,27 @@ public class MainServer {
         port(8080); // o html server mou
         DataFetcher fetcher = new DataFetcher();
 
+        options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+        
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+        
+            return "OK";
+        });
+        
+        // Set CORS headers for all responses
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*"); // or specify domain
+            response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            response.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        });
+
         // called by js
         post("/trigger-fetch", (req, res) -> {
             fetcher.fetchAndStoreWeatherData("Thessaloniki");

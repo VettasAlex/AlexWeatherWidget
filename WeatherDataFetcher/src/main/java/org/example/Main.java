@@ -1,33 +1,30 @@
-package org.example;
-
 import static spark.Spark.*;
-
-import org.json.JSONObject;
 
 public class Main {
     public static void main(String[] args) {
-        DataFetcher fetcher = new DataFetcher();
-
-        post("/trigger-fetch", (req, res) -> {
-            fetcher.fetchAndStoreWeatherData("Thessaloniki");
-            return "Daily weather fetched and stored!";
-        });
-
-
-        post("/log-momentary", (req, res) -> {
-            res.type("text/plain");
-
-            JSONObject body = new JSONObject(req.body());
-            String city = body.getString("city");
-            double temperature = body.getDouble("temperature");
-            int humidity = body.getInt("humidity");
-
-            fetcher.insertMomentaryWeather(city, temperature, humidity);
-
-            return "Momentary weather logged!";
-        });
-
-
+        // Set the port for the backend
         port(8080);
+
+        // CORS setup (this runs before every request)
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+            response.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        });
+
+        // Handle preflight OPTIONS request
+        options("/*", (request, response) -> {
+            response.status(200);
+            return "OK";
+        });
+
+        // POST route that logs temperature
+        post("/log-momentary", (request, response) -> {
+            System.out.println("Received JSON:");
+            System.out.println(request.body());
+
+            response.type("text/plain");
+            return "Logged successfully";
+        });
     }
 }

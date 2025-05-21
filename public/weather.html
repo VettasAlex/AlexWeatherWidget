@@ -33,9 +33,7 @@
         </div>
         <img id="weather-icon" src="/icons/caution.png" alt="Weather Icon" />
       </div>
-      <button id="logTempBtn" onclick="logTemperature()">
-        Log Current Temperature
-      </button>
+      <button id="logTempBtn">Log Current Temperature</button>
     </div>
 
     <div class="container">
@@ -80,19 +78,5 @@
     </div>
 
     <script src="weather.js" async defer></script>
-
-    <!-- Fetch POST for logTempBtn click -->
-    <script>
-      document
-        .getElementById("logTempBtn")
-        .addEventListener("click", function () {
-          fetch("http://localhost:8080/trigger-fetch", {
-            method: "POST",
-          })
-            .then((res) => res.text())
-            .then((data) => alert(data))
-            .catch((err) => console.error("Fetch failed:", err));
-        });
-    </script>
   </body>
 </html>

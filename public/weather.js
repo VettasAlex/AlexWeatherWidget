@@ -233,13 +233,16 @@ document.getElementById("logTempBtn").addEventListener("click", function () {
   );
   const humidity = parseInt(document.getElementById("humidity").textContent);
 
+  setTimeout(() => {
+    alert("You logged the temperature successfully");
+  }, 250);
   fetch("http://localhost:8080/log-momentary", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ city, temperature, humidity }),
   })
     .then((res) => res.text())
-    .then((data) => alert(data))
+    .then((data) => {})
     .catch((err) => console.error("Fetch failed:", err));
 });
 
