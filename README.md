@@ -1,8 +1,11 @@
+
+# Project Title
+
+A brief description of what this project does and who it's for
+
 # 📚Alex's Weather Widget
 
-A lightweight, scalable weather widget that supports both light and dark themes. 
-It fetches real-time weather data for Thessaloniki, Greece, 
-and logs daily averages for temperature and humidity at 08:00 AM.
+A lightweight, scalable weather widget that supports both light and dark themes. It fetches real-time weather data for Thessaloniki, Greece, and logs daily averages for temperature and humidity at 08:00 AM. Users can also manually log current weather data using a dedicated button.
 
 
 ---
@@ -14,6 +17,7 @@ and logs daily averages for temperature and humidity at 08:00 AM.
 - **Graphical Representation**: Shows a graph of minimum and maximum temperature for the next 7 days.
 - **Light or Dark Mode**: Lets user choose between Light or Dark Mode.
 - **Scalable Design**: Built with responsive layouts to ensure seamless integration across various screen sizes and applications.
+- **Manual Logging Button**: Allows the user to log the current temperature and humidity data into the database on demand.
 - **Automated Daily Logging**: Records average temperature and humidity every day at 08:00 AM for historical analysis and future implementation.
 
 ---
@@ -33,10 +37,7 @@ and logs daily averages for temperature and humidity at 08:00 AM.
 2. Run the Application
    docker-compose up -d
 
-3. Access the Application
-   Open your browser and navigate to http://localhost:8080
-
-4. Access the Database
+3. Access the Database
    Use a MySQL client like HeidiSQL with the following details:
      - Host: localhost
      - Port: 3306
@@ -54,6 +55,16 @@ and logs daily averages for temperature and humidity at 08:00 AM.
 - Containerization: Docker
 
 ---
+
+## 📝Log Current Temperature
+
+- Action: Manually logs the current temperature and humidity when the **"Log Temperature"** button is pressed.
+- Storage: Logged data is stored in the MySQL database instantly.
+- Data Logged:
+  - Current Temperature  
+  - Current Humidity  
+  - Timestamp of the logging action
+
 
 ## 📝Daily Logging Details
 
