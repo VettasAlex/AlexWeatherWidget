@@ -30,20 +30,29 @@ A lightweight, scalable weather widget that supports both light and dark themes.
 
 ### Installation
 
-1. Clone the Repository
-   git clone https://github.com/VettasAlex/AlexWeatherWidget.git
-   cd weatherproject
+- **Clone the Repository**  
+  - `git clone https://github.com/VettasAlex/AlexWeatherWidget.git`  
+  
 
-2. Run the Application
-   docker-compose up -d
+- **Run the Application**  
+  
+ - Open a terminal and type:
 
-3. Access the Database
-   Use a MySQL client like HeidiSQL with the following details:
-     - Host: localhost
-     - Port: 3306
-     - User: root
-     - Password: 12345
-     - Database: weather_app
+```bash
+cd weatherproject
+```
+- Once you are in the right directory, type:
+```
+docker-compose up -d
+```
+-----------------
+- **Access the Database**  
+  Use a MySQL client like HeidiSQL with:  
+  - Host: `localhost`  
+  - Port: `3306`  
+  - User: `root`  
+  - Password: `12345`  
+  - Database: `weather_app`
 
 ---
 
