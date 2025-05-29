@@ -2,6 +2,8 @@ package org.example;
 
 import static spark.Spark.*;
 
+import org.json.JSONObject;
+
 public class Main {
     public static void main(String[] args) {
         // Set the port for the backend
@@ -22,11 +24,23 @@ public class Main {
 
         // POST route that logs temperature
         post("/log-momentary", (request, response) -> {
-            System.out.println("Received JSON:");
-            System.out.println(request.body());
+    System.out.println("Received JSON:");
+    String body = request.body();
+    System.out.println(body);
 
-            response.type("text/plain");
-            return "Logged successfully";
-        });
+    // Parse JSON
+    JSONObject json = new JSONObject(body);
+    String city = json.getString("city");
+    double temperature = json.getDouble("temperature");
+    int humidity = json.getInt("humidity");
+
+    // Insert into DB
+    DataFetcher fetcher = new DataFetcher();
+    fetcher.insertMomentaryWeather(city, temperature, humidity);
+
+    response.type("text/plain");
+    return "Logged successfully and inserted into DB";
+});
+
     }
 }

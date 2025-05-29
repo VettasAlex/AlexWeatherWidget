@@ -28,6 +28,6 @@ services:
       weather-db:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://weather-db:3306/weather_app
+      SPRING_DATASOURCE_URL: jdbc:mysql://weather-db:3306/weather_app?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345

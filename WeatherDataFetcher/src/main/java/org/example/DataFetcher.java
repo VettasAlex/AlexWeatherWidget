@@ -15,10 +15,24 @@ public class DataFetcher {
 
     // SKG coordinates
     private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude=40.6401&longitude=22.9444&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min&timezone=auto";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/weather_app";
+    private static final String DB_URL = "jdbc:mysql://weather-db:3306/weather_app";
     private static final String DB_USER = "root";
     private static final String DB_PASS = "12345";
 
+    //RETRY IF CONNECTION FAIL
+    private Connection connectWithRetry(int maxRetries, int waitMillis) throws InterruptedException {
+        int attempt = 0;
+        while (attempt < maxRetries) {
+            try {
+                return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            } catch (Exception e) {
+                attempt++;
+                System.out.println("Attempt " + attempt + " failed to connect to DB. Retrying in " + waitMillis + "ms...");
+                Thread.sleep(waitMillis);
+            }
+        }
+        throw new RuntimeException("Failed to connect to DB after " + maxRetries + " attempts.");
+    }
     public void fetchAndStoreWeatherData(String city) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(API_URL).openConnection();
