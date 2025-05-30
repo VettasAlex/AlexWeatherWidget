@@ -43,7 +43,7 @@ cd weatherproject
 ```
 - Once you are in the right directory, type:
 ```
-docker-compose up -d
+docker-compose up 
 ```
 -----------------
 - **Access the Database**  
