@@ -181,23 +181,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* #record-button {
-  padding: 8px 16px;
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-} */
-
-/* #record-button:hover {
-  background-color: #1976d2;
-} */
-
 .squares {
   display: flex;
   flex-wrap: wrap;
@@ -426,14 +409,6 @@ body.night .top-buttons button:not(.selected-button):hover {
 body.night input:checked + .slider {
   background-color: #c77905 !important;
 }
-
-/* body.night #record-button {
-  background-color: #c77905;
-}
-
-body.night #record-button:hover {
-  background-color: #a86603;
-} */
 
 body.night .graph {
   background-color: rgba(0, 0, 0, 0.3);

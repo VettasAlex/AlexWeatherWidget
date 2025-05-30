@@ -13,14 +13,14 @@
     </properties>
 
     <dependencies>
-        <!-- JSON library -->
+        
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20230227</version>
         </dependency>
 
-        <!-- MySQL JDBC Driver -->
+        
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -29,14 +29,14 @@
 
 
 
-    <!-- Spark Java -->
+    
 <dependency>
     <groupId>com.sparkjava</groupId>
     <artifactId>spark-core</artifactId>
     <version>2.9.4</version>
   </dependency>
 
-<!-- MariaDB JDBC driver -->
+
 <dependency>
     <groupId>org.mariadb.jdbc</groupId>
     <artifactId>mariadb-java-client</artifactId>
@@ -46,7 +46,7 @@
 
     <build>
         <plugins>
-            <!-- Create fat JAR -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
