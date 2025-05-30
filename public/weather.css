@@ -345,7 +345,7 @@ body .chartjs-axis,
   color: white !important;
 }
 
-/* --- DARK MODE --- */
+/* --- NIGHT MODE --- */
 
 body.night {
   background-color: #1c1c1e;

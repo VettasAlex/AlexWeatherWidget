@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   getWeather();
 });
 
+//---NIGHT MODE TOGGLE---
 const toggle = document.getElementById("dark-mode-toggle");
 toggle.addEventListener("change", () => {
   document.body.classList.toggle("night");
@@ -22,7 +23,6 @@ pressure = document.getElementById("pressure");
 let weatherData;
 
 function selectButton(clickedBtn) {
-  //skip the logTempBtn
   if (clickedBtn.id === "logTempBtn") {
     return;
   }
@@ -33,11 +33,6 @@ function selectButton(clickedBtn) {
   clickedBtn.classList.add("selected-button");
 }
 
-function logTemperature() {
-  setTimeout(function () {
-    alert("Temperature was successfully logged in the Database!");
-  }, 250);
-}
 const dateBtn = document.querySelector(".date-button");
 const dateOptionsContainer = document.getElementById("date-options");
 

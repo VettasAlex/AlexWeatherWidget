@@ -5,7 +5,7 @@ import static spark.Spark.*;
 
 public class MainServer {
     public static void main(String[] args) {
-        port(8080); // o html server mou
+        port(8080); 
         DataFetcher fetcher = new DataFetcher();
 
         options("/*", (request, response) -> {
@@ -22,7 +22,7 @@ public class MainServer {
             return "OK";
         });
         
-        // Set CORS headers 
+        // CORS setup
         before((request, response) -> {
             response.header("Access-Control-Allow-Origin", "*"); 
             response.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");

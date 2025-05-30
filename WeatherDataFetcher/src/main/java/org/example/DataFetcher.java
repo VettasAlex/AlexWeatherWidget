@@ -19,7 +19,7 @@ public class DataFetcher {
     private static final String DB_USER = "root";
     private static final String DB_PASS = "12345";
 
-    //RETRY IF CONNECTION FAIL
+    //RETRY IF CONNECTION FAIL / CONNECTION NOT READY YET
     private Connection connectWithRetry(int maxRetries, int waitMillis) throws InterruptedException {
         int attempt = 0;
         while (attempt < maxRetries) {
@@ -60,7 +60,7 @@ public class DataFetcher {
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
                 String query = "INSERT INTO daily_weather (city, date, avg_temperature, avg_humidity) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                    // Only today's data (index 0)
+                    // Only index 0
                     String date = dates.getString(0);
                     double avgTemp = (tempMax.getDouble(0) + tempMin.getDouble(0)) / 2;
                     double avgHumidity = (humidityMax.getDouble(0) + humidityMin.getDouble(0)) / 2;
