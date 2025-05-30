@@ -18,7 +18,7 @@ A lightweight, scalable weather widget that supports both light and dark themes.
 - **Light or Dark Mode**: Lets user choose between Light or Dark Mode.
 - **Scalable Design**: Built with responsive layouts to ensure seamless integration across various screen sizes and applications.
 - **Manual Logging Button**: Allows the user to log the current temperature and humidity data into the database on demand.
-- **Automated Daily Logging**: Records average temperature and humidity every day at 08:00 AM for historical analysis and future implementation.
+- **Automated Daily Logging (TBI)**: Records average temperature and humidity every day at 08:00 AM for historical analysis and future implementation.
 
 ---
 
@@ -75,7 +75,7 @@ docker-compose up -d
   - Timestamp of the logging action
 
 
-## 📝Daily Logging Details
+## 📝Daily Logging Details (TBI)
 
 - Time: 08:00 AM daily.
 - Storage: Logged data is stored in the MySQL database for future reference and analysis.
