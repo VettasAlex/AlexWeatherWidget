@@ -22,7 +22,6 @@ public class Main {
             return "OK";
         });
 
-        
         post("/log-momentary", (request, response) -> {
     System.out.println("Received JSON:");
     String body = request.body();
