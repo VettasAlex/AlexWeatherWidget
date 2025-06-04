@@ -7,7 +7,7 @@ import org.json.JSONObject;
 public class Main {
     public static void main(String[] args) {
         
-        port(8080);
+        port(8080); 
 
         // CORS setup 
         before((request, response) -> {
@@ -33,7 +33,7 @@ public class Main {
     double temperature = json.getDouble("temperature");
     int humidity = json.getInt("humidity");
 
-    // Insert into DB
+    // Insert into DB   
     DataFetcher fetcher = new DataFetcher();
     fetcher.insertMomentaryWeather(city, temperature, humidity);
 

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class DataFetcher {
+public class DataFetcher {  
 
     // SKG coordinates
     private static final String API_URL = "https://api.open-meteo.com/v1/forecast?latitude=40.6401&longitude=22.9444&daily=temperature_2m_max,temperature_2m_min,relative_humidity_2m_max,relative_humidity_2m_min&timezone=auto";
@@ -29,7 +29,7 @@ public class DataFetcher {
                 attempt++;
                 System.out.println("Attempt " + attempt + " failed to connect to DB. Retrying in " + waitMillis + "ms...");
                 Thread.sleep(waitMillis);
-            }
+            }  
         }
         throw new RuntimeException("Failed to connect to DB after " + maxRetries + " attempts.");
     }
